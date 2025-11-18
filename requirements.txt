@@ -1,2 +1,2 @@
-pglast
+pglast==6.2
 sqlparse
