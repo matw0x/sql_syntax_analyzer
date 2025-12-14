@@ -1,0 +1,11 @@
+{
+    "validation": {
+        "enabled": true,
+        "forbidden_statements": ["DropStmt", "TruncateStmt", "CreateStmt", "DoStmt"],
+        "forbidden_functions": ["pg_sleep", "pg_read_file", "crosstab", "current_setting"]
+    },
+    "transformation": {
+        "enabled": true,
+        "tenant_column": "tenant_id"
+    }
+}

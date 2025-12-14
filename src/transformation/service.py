@@ -1,6 +1,6 @@
 from pglast.printers import node_printer
-from common.models import ParsedQuery, TransformedQuery
-from common.errors import TransformationError
+from src.common._models import ParsedQuery, TransformedQuery
+from src.common._errors import TransformationError
 from ._mutators import TenantIDInjector
 
 class TransformerService:
