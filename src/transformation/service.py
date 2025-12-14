@@ -1,4 +1,4 @@
-from pglast.printers import node_printer
+from pglast.stream import RawStream
 from common import ParsedQuery, TransformedQuery, TransformationError
 from config import settings
 from ._mutator import TenantInjector
@@ -29,7 +29,7 @@ class TransformerService:
             new_ast = tuple(new_ast_list)
 
             if injector.modified:
-                new_sql = node_printer(new_ast)
+                new_sql = RawStream()(new_ast)
             else:
                 new_sql = query.raw_sql
 

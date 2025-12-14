@@ -33,7 +33,6 @@ class TenantInjector(Visitor):
                 location=-1
             )
 
-        new_node = node.model_copy(update={'whereClause': new_where})
-        
+        node.whereClause = new_where
         self.modified = True
-        return new_node
+        return node
