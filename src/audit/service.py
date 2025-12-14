@@ -4,10 +4,11 @@ from pathlib import Path
 from common import ParsedQuery, ValidationResult
 
 class AuditLogger:
-    def __init__(self, log_file: str = "query_audit.jsonl"):
+    def __init__(self, log_file: str = "artifacts/audit.jsonl"):
         self.log_file = Path(log_file)
+        self.log_file.parent.mkdir(parents=True, exist_ok=True)
 
-    def log_attempt(self, 
+    def log(self, 
                     query: ParsedQuery, 
                     validation: ValidationResult, 
                     transformed_sql: str | None = None):

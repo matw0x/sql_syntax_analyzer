@@ -1,2 +1,1 @@
-pglast==6.2
-sqlparse
+pglast==7.10
