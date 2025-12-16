@@ -6,6 +6,10 @@ class QueryStructure:
     command_type: str
     tables: list[str]
     functions: list[str]
+    aggregates: list[str]
+    where_clauses: list[str]
+    dangerous_commands: list[str]
+    has_subqueries: bool = False
 
 @dataclass(frozen=True)
 class ParsedQuery:

@@ -5,15 +5,29 @@ from dataclasses import dataclass
 DEFAULT_CONFIG_PATH = Path(__file__).parent / "rules.json"
 
 @dataclass
+class ParsingConfig:
+    known_aggregates: list[str]
+
+@dataclass
 class ValidationConfig:
     enabled: bool
     forbidden_statements: list[str]
     forbidden_functions: list[str]
 
 @dataclass
+class TenantInjectionConfig:
+    enabled: bool
+    target_column: str
+
+@dataclass
+class TransformationRules:
+    tenant_injection: TenantInjectionConfig
+
+@dataclass
 class TransformationConfig:
     enabled: bool
-    tenant_column: str
+    allowed_statements: list[str]
+    rules: TransformationRules
 
 class AppConfig:
     def __init__(self, path: Path | str = None):
@@ -25,8 +39,22 @@ class AppConfig:
         with open(target_path, "r", encoding="utf-8") as f:
             try:
                 data = json.load(f)
+                
+                self.parsing = ParsingConfig(**data["parsing"])
                 self.validation = ValidationConfig(**data["validation"])
-                self.transformation = TransformationConfig(**data["transformation"])
+                
+                t_data = data["transformation"]
+                rules_data = t_data["rules"]
+                
+                tenant_conf = TenantInjectionConfig(**rules_data["tenant_injection"])
+                rules_conf = TransformationRules(tenant_injection=tenant_conf)
+                
+                self.transformation = TransformationConfig(
+                    enabled=t_data["enabled"],
+                    allowed_statements=t_data["allowed_statements"],
+                    rules=rules_conf
+                )
+                
             except (json.JSONDecodeError, TypeError, KeyError) as e:
                 raise ValueError(f"Invalid config format in {target_path}: {e}")
 

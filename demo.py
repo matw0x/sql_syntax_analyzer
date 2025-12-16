@@ -50,6 +50,7 @@ def main():
         {"name": "DDL Attack (DROP)", "sql": "DROP TABLE users;"},
         {"name": "Forbidden Function", "sql": "SELECT pg_sleep(5);"},
         {"name": "Select Needs Filter", "sql": "SELECT * FROM orders"},
+        {"name": "Complex Analytics", "sql": "SELECT count(*) FROM orders WHERE user_id IN (SELECT id FROM users)"},
     ]
 
     for _, case in enumerate(test_cases, 1):
