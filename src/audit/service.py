@@ -1,5 +1,5 @@
 import json
-import time
+from datetime import datetime
 from pathlib import Path
 from common import ParsedQuery, ValidationResult
 
@@ -14,7 +14,7 @@ class AuditLogger:
                     transformed_sql: str | None = None):
         
         record = {
-            "timestamp": time.time(),
+            "timestamp": datetime.now().isoformat(),
             "original_sql": query.raw_sql,
             "is_valid": validation.is_valid,
             "errors": validation.errors,
