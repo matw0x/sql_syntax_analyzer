@@ -21,6 +21,16 @@ class _StructureVisitor(Visitor):
         if node.funcname and isinstance(node.funcname[-1], String):
              self.functions.add(node.funcname[-1].sval.lower())
 
+    def visit_DropStmt(self, ancestors, node):
+        if node.objects:
+            for obj in node.objects:
+                if isinstance(obj, (list, tuple)):
+                    parts = [p.sval for p in obj if isinstance(p, String)]
+                    if parts:
+                        self.tables.add(".".join(parts))
+                elif isinstance(obj, String):
+                     self.tables.add(obj.sval)
+
 def extract_structure(ast: tuple) -> QueryStructure:
     visitor = _StructureVisitor()
 
