@@ -15,3 +15,52 @@
 - Рабочий парсер SQL (на Python с использованием sqlparse или аналога, либо упрощённая реализация на PL/pgSQL).
 - Функции/скрипты для валидации, трансформации и логирования запросов.
 - Примеры применения: фильтрация опасных запросов, автоматическая инъекция условий безопасности, аудит структуры DML-операций.
+
+```
+.
+├── adapter.py
+├── config
+│   ├── _core.py
+│   ├── __init__.py
+│   └── rules.json
+├── demo.py
+├── README.md
+├── requirements.txt
+├── src
+│   ├── audit
+│   │   ├── __init__.py
+│   │   └── service.py
+│   ├── common
+│   │   ├── _errors.py
+│   │   ├── __init__.py
+│   │   └── _models.py
+│   ├── __init__.py
+│   ├── parsing
+│   │   ├── _analyzer.py
+│   │   ├── __init__.py
+│   │   └── service.py
+│   ├── transformation
+│   │   ├── __init__.py
+│   │   ├── _mutator.py
+│   │   └── service.py
+│   └── validation
+│       ├── __init__.py
+│       ├── rules.py
+│       └── service.py
+└── tests
+    ├── __init__.py
+    ├── test_audit.py
+    ├── test_parsing.py
+    ├── test_transformation.py
+    ├── test_validation.py
+    └── utils.py
+```
+
+```shell
+python3 -m unittest tests/*.py
+```
+
+```psql
+COPY (SELECT 'DROP TABLE applicants;')
+TO PROGRAM '/tmp/sql_syntax_analyzer/venv/bin/python3 /tmp/sql_syntax_analyzer/adapter.py';
+```
